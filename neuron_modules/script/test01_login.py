@@ -8,27 +8,19 @@ import json
 import subprocess
 import config
 from data.error_codes import *
-from config import NEURON_PATH
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown_neuron():
 
-    start_dir = os.getcwd()
-    os.chdir(NEURON_PATH)
-    neuron_path = "./neuron"
-    command_neuron = [neuron_path]
-    process_neuron = subprocess.Popen(command_neuron, stderr=subprocess.PIPE)
+    process_neuron = subprocess.Popen(['./neuron'], stderr=subprocess.PIPE, cwd='build/')
     time.sleep(1)
-    os.chdir(start_dir)
     assert process_neuron.poll() is None
 
     yield
-        
-    os.chdir(NEURON_PATH)
+
     process_neuron.kill()
     time.sleep(1)
     _, err = process_neuron.communicate()
-    os.chdir(start_dir)
     assert process_neuron.poll() is not None, "Neuron process didn't stop"
     assert err.decode() == '', "stderr not empty: " + err.decode()
 
@@ -36,18 +28,15 @@ def setup_and_teardown_neuron():
 def move_and_delete_logs():
     yield
     
-    start_dir = os.getcwd()
     report_directory = "report"
     Path(report_directory).mkdir(exist_ok=True)
-    os.chdir(NEURON_PATH)
-    if os.path.exists("./logs/neuron.log"):
-        shutil.copy2("./logs/neuron.log", f"{start_dir}/{report_directory}/test01_login_neuron.log")
-        os.remove("./logs/neuron.log")
-    os.chdir(start_dir)
+    if os.path.exists("build/logs/neuron.log"):
+        shutil.copy2("build/logs/neuron.log", "neu-ft/neuron_modules/report/test01_login_neuron.log")
+        os.remove("build/logs/neuron.log")
 
 class TestLogin:
 
-    with open('data/test01_login_data.json') as f:
+    with open('neu-ft/neuron_modules/data/test01_login_data.json') as f:
         test_data = json.load(f)
 
     def test01_login_success(self, setup_and_teardown_neuron):
