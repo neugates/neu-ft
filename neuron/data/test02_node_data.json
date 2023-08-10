@@ -1,0 +1,101 @@
+{
+    "node_data": {
+        "name": "modbus-node",
+        "plugin": "Modbus TCP"
+    },
+    "node_data_none": {
+        "name": "modbus-node-not-exist",
+        "plugin": "Modbus"
+    },
+    "node_data_app_old": {
+        "name": "mqtt-node-old",
+        "plugin": "MQTT"
+    },
+    "node_data_app_new": {
+        "name": "mqtt-node-old",
+        "new_name": "mqtt-node"
+    },
+    "update_to_modbus_tcp_node": {
+        "name": "modbus-node",
+        "new_name": "modbus-tcp-node"
+    },
+    "update_to_null": {
+        "name": "modbus-tcp-node",
+        "new_name": ""
+    },
+    "update_modbus_tcp_node_nonexistent": {
+        "name": "modbus-tcp-node_nonexistent",
+        "new_name": "modbus"
+    },
+    "update_to_conflicting_name": {
+        "name": "modbus-tcp-node",
+        "new_name": "mqtt-node"
+    },
+    "south_same_name": {
+        "name": "modbus-tcp-node",
+        "new_name": "modbus-tcp-node"
+    },
+    "north_same_name": {
+        "name": "mqtt-node",
+        "new_name": "mqtt-node"
+    },
+    "update_monitor": {
+        "name": "monitor",
+        "new_name": "monitor-new"
+    },
+    "update_to_monitor": {
+        "name": "modbus-tcp-node",
+        "new_name": "monitor"
+    },
+    "start_node_not_set": {
+        "node": "modbus-tcp-node",
+        "cmd": 0
+    },
+    "stop_node_not_set": {
+        "node": "modbus-tcp-node",
+        "cmd": 1
+    },
+    "node_config": {
+        "node": "modbus-tcp-node",
+        "params": {
+            "transport_mode": 0,
+            "connection_mode": 0,
+            "max_retries": 0,
+            "retry_interval": 0, 
+            "interval": 20,
+            "host": "127.0.0.1",
+            "port": 502,
+            "timeout": 3000
+        }
+    },
+    "non_node_config": {
+        "node": "none",
+        "params": {
+            "transport_mode": 0,
+            "connection_mode": 0,
+            "max_retries": 0,
+            "retry_interval": 0, 
+            "interval": 20,
+            "host": "127.0.0.1",
+            "port": 502,
+            "timeout": 3000
+        }
+    },
+    "node_stop": {
+        "node": "modbus-tcp-node",
+        "cmd": 1
+    },
+    "node_start": {
+        "node": "modbus-tcp-node",
+        "cmd": 0
+    },
+    "delete_modbus_tcp_node": {
+        "name": "modbus-tcp-node"
+    },
+    "delete_mqtt_node": {
+        "name": "mqtt-node"
+    },
+    "delete_null_node": {
+        "name": "not-exist"
+    }
+}

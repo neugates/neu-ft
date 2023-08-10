@@ -1,0 +1,24 @@
+{
+    "correct_user_data": {
+        "name": "admin",
+        "pass": "0000"
+    },
+    "invalid_user": {
+        "name": "wrong_name",
+        "pass": "0000"
+    },
+    "invalid_password": {
+        "name": "admin",
+        "pass": "wrong_password"
+    },
+    "change_password1": {
+        "name": "admin",
+        "old_pass": "0000",
+        "new_pass": "1234"
+    },
+    "change_password2": {
+        "name": "admin",
+        "old_pass": "1234",
+        "new_pass": "0000"
+    }
+}
