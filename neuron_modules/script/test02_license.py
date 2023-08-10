@@ -7,7 +7,6 @@ from pathlib import Path
 from api.api import *
 from data.error_codes import *
 from common.common import *
-from config import NEURON_PATH
 import time
 import json
 import random
@@ -15,26 +14,18 @@ import random
 @pytest.fixture()
 def setup_and_teardown_neuron(autouse=True):
 
-    start_dir = os.getcwd()
-    os.chdir(NEURON_PATH)
-
-    neuron_path = "./neuron"
-    command_neuron = [neuron_path]
-    process_neuron = subprocess.Popen(command_neuron, stderr=subprocess.PIPE)
+    process_neuron = subprocess.Popen(['./neuron'], stderr=subprocess.PIPE, cwd='build/')
     time.sleep(1)
-    os.chdir(start_dir)
     assert process_neuron.poll() is None
 
     yield
 
-    os.chdir(NEURON_PATH)
     process_neuron.kill()
     time.sleep(1)
     _, err = process_neuron.communicate()
     assert process_neuron.poll() is not None, "Neuron process didn't stop"
     assert err.decode() == '', "stderr not empty: " + err.decode()
-    os.remove("./persistence/sqlite.db")
-    os.chdir(start_dir)
+    os.remove("build/persistence/sqlite.db")
 
 @pytest.fixture()
 def random_port():
@@ -46,42 +37,30 @@ def random_port():
 @pytest.fixture()
 def setup_and_teardown_modbus(random_port):
 
-    start_dir = os.getcwd()
-    os.chdir(NEURON_PATH)
-
-    modbus_simulator_path = "./simulator/modbus_simulator"
-    args_modbus = ["tcp", str(random_port)]
-    command_modbus = [modbus_simulator_path] + args_modbus
-    process_modbus = subprocess.Popen(command_modbus, stderr=subprocess.PIPE)
+    process_modbus = subprocess.Popen(['./modbus_simulator', 'tcp', str(random_port)], stderr=subprocess.PIPE, cwd='build/simulator')
     time.sleep(1)
-    os.chdir(start_dir)
     assert process_modbus.poll() is None
 
     yield
     
-    os.chdir(NEURON_PATH)
     process_modbus.kill()
     time.sleep(1)
     assert process_modbus.poll() is not None
-    os.chdir(start_dir)
 
 @pytest.fixture(scope="session", autouse=True)
 def move_and_delete_logs():
     yield
     
-    start_dir = os.getcwd()
     report_directory = "report"
     Path(report_directory).mkdir(exist_ok=True)
-    os.chdir(NEURON_PATH)
-    if os.path.exists("./logs/neuron.log"):
-        shutil.copy2("./logs/neuron.log", f"{start_dir}/{report_directory}/test02_license_neuron.log")
-        shutil.copy2("./logs/modbus-tcp-node.log", f"{start_dir}/{report_directory}/test02_license_modbus_tcp_node.log")
-        os.remove("./logs/neuron.log")
-    os.chdir(start_dir)
+    if os.path.exists("build/logs/neuron.log"):
+        shutil.copy2("build/logs/neuron.log", "neu-ft/neuron_modules/report/test02_license_neuron.log")
+        shutil.copy2("build/logs/modbus-tcp-node.log", "neu-ft/neuron_modules/report/test02_license_modbus_tcp_node.log")
+        os.remove("build/logs/neuron.log")
 
 class TestLicense:
 
-    with open('data/test02_license_data.json') as f:
+    with open('neu-ft/neuron_modules/data/test02_license_data.json') as f:
         test_data = json.load(f)
 
     def add_tags_less_than_30(self, random_port):
@@ -185,11 +164,11 @@ class TestLicense:
     def test01_get_license_without_license_fail(self, setup_and_teardown_neuron):
         print("---given:without license, when:get license, then:get failed and return error---")
         try:
-            os.remove(NEURON_PATH + f"/config/neuron-default.lic")
+            os.remove("build/config/neuron-default.lic")
         except FileNotFoundError:
             pass
         try:
-            os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+            os.remove("build/persistence/neuron.lic")
         except FileNotFoundError:
             pass
         response = get_license(header_data=config.headers)
@@ -210,7 +189,7 @@ class TestLicense:
         self.add_tags_less_than_30(random_port)
 
     def test04_tag_more_than_30_without_license_fail(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
-        print("---given:without license, when:add 2 tags and write&read, then:success---")
+        print("---given:without license, when:add 31 tags and write&read, then:failed and return error---")
         self.add_tags_more_than_30(random_port)
 
     def test05_upload_outdated_license_fail(self, setup_and_teardown_neuron):
@@ -245,7 +224,7 @@ class TestLicense:
         assert 200 == response.status_code
         assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+        os.remove("build/persistence/neuron.lic")
 
     def test07_tags_more_than_30_upload_license_success(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
         print("---given:without license and add 31 tags, when:upload license and write&read, then:success---")
@@ -272,7 +251,7 @@ class TestLicense:
         assert 200 == response.status_code
         assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+        os.remove("build/persistence/neuron.lic")
 
     def test08_count_nodes_tags_with_license_success(self, setup_and_teardown_neuron, random_port):
         print("---given:upload license, when:count nodes&tags after add&delete node&group&tag, then:success with correct number---")
@@ -374,7 +353,7 @@ class TestLicense:
         assert 0 == response.json().get("used_nodes")
         assert 0 == response.json().get("used_tags")
 
-        os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+        os.remove("build/persistence/neuron.lic")
 
     def test09_tags_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
         print("---given:add 31 tags and upload license_30, when:write&read before&after delete 1 tag, then:failed before deleting and success after deleting---")
@@ -418,7 +397,7 @@ class TestLicense:
         assert 200 == response.status_code
         assert 666 == response.json()["tags"][0].get("value")       
 
-        os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+        os.remove("build/persistence/neuron.lic")
     
     def test10_nodes_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
         print("---given:add 32 nodes and upload license_30, when:write&read before&after delete 2 nodes, then:failed before deleting and success after deleting---")
@@ -476,4 +455,4 @@ class TestLicense:
         assert 200 == response.status_code
         assert 666 == response.json()["tags"][0].get("value")       
 
-        os.remove(NEURON_PATH + f"/persistence/neuron.lic")
+        os.remove("build/persistence/neuron.lic")
