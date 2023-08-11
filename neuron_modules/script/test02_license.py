@@ -47,16 +47,18 @@ def setup_and_teardown_modbus(random_port):
     time.sleep(1)
     assert process_modbus.poll() is not None
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def move_and_delete_logs():
     yield
     
-    report_directory = "report"
+    report_directory = "neu-ft/neuron_modules/report"
     Path(report_directory).mkdir(exist_ok=True)
     if os.path.exists("build/logs/neuron.log"):
         shutil.copy2("build/logs/neuron.log", "neu-ft/neuron_modules/report/test02_license_neuron.log")
-        shutil.copy2("build/logs/modbus-tcp-node.log", "neu-ft/neuron_modules/report/test02_license_modbus_tcp_node.log")
         os.remove("build/logs/neuron.log")
+    if os.path.exists("build/logs/modbus-tcp-node.log"):
+        shutil.copy2("build/logs/modbus-tcp-node.log", "neu-ft/neuron_modules/report/test02_license_modbus_tcp_node.log")
+        os.remove("build/logs/modbus-tcp-node.log")
 
 class TestLicense:
 
