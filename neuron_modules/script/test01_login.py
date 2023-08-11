@@ -9,6 +9,7 @@ import subprocess
 import config
 from data.error_codes import *
 
+
 @pytest.fixture(autouse=True)
 def setup_and_teardown_neuron():
     os.system("mkdir -p build/persistence")
@@ -31,8 +32,10 @@ def move_and_delete_logs():
     report_directory = "neu-ft/neuron_modules/report"
     Path(report_directory).mkdir(exist_ok=True)
     if os.path.exists("build/logs/neuron.log"):
-        shutil.copy2("build/logs/neuron.log", "neu-ft/neuron_modules/report/test01_login_neuron.log")
+        shutil.copy2("build/logs/neuron.log",
+                     "neu-ft/neuron_modules/report/test01_login_neuron.log")
         os.remove("build/logs/neuron.log")
+
 
 class TestLogin:
 
@@ -48,9 +51,10 @@ class TestLogin:
         assert 200 == response.status_code
         print(response.json())
         config.TOKEN = response.json().get("token")
-    
+
     def test02_login_invalid_user_fail(self, setup_and_teardown_neuron):
-        print("---given:invalid user name, when:login, then:login failed and return error---")
+        print(
+            "---given:invalid user name, when:login, then:login failed and return error---")
         test_data = TestLogin.test_data
         user_data = test_data['invalid_user']
 
@@ -59,14 +63,15 @@ class TestLogin:
         assert NEU_ERR_INVALID_USER == response.json().get("error")
 
     def test03_login_invalid_password_fail(self, setup_and_teardown_neuron):
-        print("---given:invalid password, when:login, then:login failed and return error---")
+        print(
+            "---given:invalid password, when:login, then:login failed and return error---")
         test_data = TestLogin.test_data
         user_data = test_data['invalid_password']
 
         response = login(test_data=user_data)
         assert 401 == response.status_code
         assert NEU_ERR_INVALID_PASSWORD == response.json().get("error")
-    
+
     def test04_login_change_password_success(self, setup_and_teardown_neuron):
         print("---given:name, old and new password, when:login, then:success---")
         test_data = TestLogin.test_data
@@ -83,4 +88,3 @@ class TestLogin:
         response = change_password(test_data=user_data2, header_data=headers)
         assert 200 == response.status_code
         assert NEU_ERR_SUCCESS == response.json().get("error")
-    
