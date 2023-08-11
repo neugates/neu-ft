@@ -25,11 +25,11 @@ def setup_and_teardown_neuron():
     assert process_neuron.poll() is not None, "Neuron process didn't stop"
     assert err.decode() == '', "stderr not empty: " + err.decode()
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def move_and_delete_logs():
     yield
     
-    report_directory = "report"
+    report_directory = "neu-ft/neuron/report"
     Path(report_directory).mkdir(exist_ok=True)
     if os.path.exists("build/logs/neuron.log"):
         shutil.copy2("build/logs/neuron.log", "neu-ft/neuron/report/test02_node_neuron.log")
