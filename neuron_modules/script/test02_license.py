@@ -13,7 +13,7 @@ import random
 
 @pytest.fixture()
 def setup_and_teardown_neuron(autouse=True):
-
+    os.system("mkdir -p build/persistence")
     process_neuron = subprocess.Popen(['./neuron'], stderr=subprocess.PIPE, cwd='build/')
     time.sleep(1)
     assert process_neuron.poll() is None

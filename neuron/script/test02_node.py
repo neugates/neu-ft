@@ -12,7 +12,7 @@ from data.codes import *
 
 @pytest.fixture(autouse=True)
 def setup_and_teardown_neuron():
-
+    os.system("mkdir -p build/persistence")
     process_neuron = subprocess.Popen(['./neuron'], stderr=subprocess.PIPE, cwd='build/')
     time.sleep(1)
     assert process_neuron.poll() is None
