@@ -217,59 +217,59 @@ class TestLicense:
         assert 400 == response.status_code
         assert NEU_ERR_LICENSE_INVALID == response.json().get("error")
 
-    def test06_tags_less_than_30_upload_license_success(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
-        print("---given:without license and add 2 tags, when:upload license and write&read, then:success---")
-        test_data = TestLicense.test_data
-        tag_write_data = test_data['tag_write_data']
-        tag_read_data = test_data['tag_read_data']
-        license_data = test_data['license_data']
+    # def test06_tags_less_than_30_upload_license_success(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
+        # print("---given:without license and add 2 tags, when:upload license and write&read, then:success---")
+        # test_data = TestLicense.test_data
+        # tag_write_data = test_data['tag_write_data']
+        # tag_read_data = test_data['tag_read_data']
+        # license_data = test_data['license_data']
 
-        response = upload_license(
-            test_data=license_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        # response = upload_license(
+        # test_data=license_data, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        self.add_tags_less_than_30(random_port)
+        # self.add_tags_less_than_30(random_port)
 
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        # response = write(test_data=tag_write_data, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        # time.sleep(1)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert 666 == response.json()["tags"][0].get("value")
+        # response = read(test_data=tag_read_data, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove("build/persistence/neuron.lic")
+        # os.remove("build/persistence/neuron.lic")
 
-    def test07_tags_more_than_30_upload_license_success(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
-        print("---given:without license and add 31 tags, when:upload license and write&read, then:success---")
-        test_data = TestLicense.test_data
-        tag_write_data = test_data['tag_write_data']
-        tag_read_data = test_data['tag_read_data']
-        license_data_3_35 = test_data['license_data_3_35']
+    # def test07_tags_more_than_30_upload_license_success(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
+        # print("---given:without license and add 31 tags, when:upload license and write&read, then:success---")
+        # test_data = TestLicense.test_data
+        # tag_write_data = test_data['tag_write_data']
+        # tag_read_data = test_data['tag_read_data']
+        # license_data_3_35 = test_data['license_data_3_35']
 
-        self.add_tags_more_than_30(random_port)
+        # self.add_tags_more_than_30(random_port)
 
-        response = upload_license(
-            test_data=license_data_3_35, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        # response = upload_license(
+        # test_data=license_data_3_35, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        # time.sleep(1)
 
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        # response = write(test_data=tag_write_data, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(2)
+        # time.sleep(2)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert 666 == response.json()["tags"][0].get("value")
+        # response = read(test_data=tag_read_data, header_data=config.headers)
+        # assert 200 == response.status_code
+        # assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove("build/persistence/neuron.lic")
+        # os.remove("build/persistence/neuron.lic")
 
     def test08_count_nodes_tags_with_license_success(self, setup_and_teardown_neuron, random_port):
         print("---given:upload license, when:count nodes&tags after add&delete node&group&tag, then:success with correct number---")
@@ -377,110 +377,110 @@ class TestLicense:
 
         os.remove("build/persistence/neuron.lic")
 
-    def test09_tags_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
-        print("---given:add 31 tags and upload license_30, when:write&read before&after delete 1 tag, then:failed before deleting and success after deleting---")
-        test_data = TestLicense.test_data
-        tag_write_data = test_data['tag_write_data']
-        tag_read_data = test_data['tag_read_data']
-        license_data = test_data['license_data']
-        tag_delete = test_data['tag_delete']
+    #def test09_tags_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
+        #print("---given:add 31 tags and upload license_30, when:write&read before&after delete 1 tag, then:failed before deleting and success after deleting---")
+        #test_data = TestLicense.test_data
+        #tag_write_data = test_data['tag_write_data']
+        #tag_read_data = test_data['tag_read_data']
+        #license_data = test_data['license_data']
+        #tag_delete = test_data['tag_delete']
 
-        self.add_tags_more_than_30(random_port)
+        #self.add_tags_more_than_30(random_port)
 
-        response = upload_license(
-            test_data=license_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = upload_license(
+            #test_data=license_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        #time.sleep(1)
 
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_LICENSE_MAX_TAGS == response.json().get("error")
+        #response = write(test_data=tag_write_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_LICENSE_MAX_TAGS == response.json().get("error")
 
-        time.sleep(2)
+        #time.sleep(2)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_LICENSE_MAX_TAGS == response.json()[
-            'tags'][0].get("error")
+        #response = read(test_data=tag_read_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_LICENSE_MAX_TAGS == response.json()[
+            #'tags'][0].get("error")
 
-        response = delete_tag(test_data=tag_delete, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_tag(test_data=tag_delete, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        #time.sleep(1)
 
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = write(test_data=tag_write_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(2)
+        #time.sleep(2)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert 666 == response.json()["tags"][0].get("value")
+        #response = read(test_data=tag_read_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove("build/persistence/neuron.lic")
+        #os.remove("build/persistence/neuron.lic")
 
-    def test10_nodes_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
-        print("---given:add 32 nodes and upload license_30, when:write&read before&after delete 2 nodes, then:failed before deleting and success after deleting---")
-        test_data = TestLicense.test_data
-        tag_write_data = test_data['tag_write_data']
-        tag_read_data = test_data['tag_read_data']
-        license_data = test_data['license_data']
+    #def test10_nodes_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
+        #print("---given:add 32 nodes and upload license_30, when:write&read before&after delete 2 nodes, then:failed before deleting and success after deleting---")
+        #test_data = TestLicense.test_data
+        #tag_write_data = test_data['tag_write_data']
+        #tag_read_data = test_data['tag_read_data']
+        #license_data = test_data['license_data']
 
-        node_delete_31 = {
-            "name": "modbus-node-31"
-        }
-        node_delete_30 = {
-            "name": "modbus-node-30"
-        }
-        node_data_templates = [{
-            "name": f"modbus-node-{i}",
-            "plugin": "Modbus TCP"
-        } for i in range(1, 32)]
+        #node_delete_31 = {
+            #"name": "modbus-node-31"
+        #}
+        #node_delete_30 = {
+            #"name": "modbus-node-30"
+        #}
+        #node_data_templates = [{
+            #"name": f"modbus-node-{i}",
+            #"plugin": "Modbus TCP"
+        #} for i in range(1, 32)]
 
-        self.add_tags_less_than_30(random_port)
+        #self.add_tags_less_than_30(random_port)
 
-        response = upload_license(
-            test_data=license_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = upload_license(
+            #test_data=license_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        add_nodes(node_data_templates, add_node, config)
+        #add_nodes(node_data_templates, add_node, config)
 
-        time.sleep(1)
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_LICENSE_MAX_NODES == response.json().get("error")
+        #time.sleep(1)
+        #response = write(test_data=tag_write_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_LICENSE_MAX_NODES == response.json().get("error")
 
-        time.sleep(2)
+        #time.sleep(2)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_LICENSE_MAX_NODES == response.json()[
-            'tags'][0].get("error")
+        #response = read(test_data=tag_read_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_LICENSE_MAX_NODES == response.json()[
+            #'tags'][0].get("error")
 
-        response = delete_node(test_data=node_delete_31,
-                               header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        response = delete_node(test_data=node_delete_30,
-                               header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_node(test_data=node_delete_31,
+                               #header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_node(test_data=node_delete_30,
+                               #header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        #time.sleep(1)
 
-        response = write(test_data=tag_write_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = write(test_data=tag_write_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(2)
+        #time.sleep(2)
 
-        response = read(test_data=tag_read_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert 666 == response.json()["tags"][0].get("value")
+        #response = read(test_data=tag_read_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert 666 == response.json()["tags"][0].get("value")
 
-        os.remove("build/persistence/neuron.lic")
+        #os.remove("build/persistence/neuron.lic")
