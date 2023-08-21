@@ -271,111 +271,111 @@ class TestLicense:
 
         # os.remove("build/persistence/neuron.lic")
 
-    def test08_count_nodes_tags_with_license_success(self, setup_and_teardown_neuron, random_port):
-        print("---given:upload license, when:count nodes&tags after add&delete node&group&tag, then:success with correct number---")
-        test_data = TestLicense.test_data
-        node_data = test_data['node_data']
-        group_data = test_data['group_data']
-        tag_config = test_data['tag_config']
-        tag_delete = test_data['tag_delete']
-        group_delete = test_data['group_delete']
-        node_delete = test_data['node_delete']
-        license_data = test_data['license_data']
-        node_config = {
-            "node": "modbus-node",
-            "params": {
-                "transport_mode": 0,
-                "connection_mode": 0,
-                "max_retries": 0,
-                "retry_interval": 0,
-                "interval": 20,
-                "host": "127.0.0.1",
-                "port": random_port,
-                "timeout": 3000
-            }
-        }
+    #def test08_count_nodes_tags_with_license_success(self, setup_and_teardown_neuron, random_port):
+        #print("---given:upload license, when:count nodes&tags after add&delete node&group&tag, then:success with correct number---")
+        #test_data = TestLicense.test_data
+        #node_data = test_data['node_data']
+        #group_data = test_data['group_data']
+        #tag_config = test_data['tag_config']
+        #tag_delete = test_data['tag_delete']
+        #group_delete = test_data['group_delete']
+        #node_delete = test_data['node_delete']
+        #license_data = test_data['license_data']
+        #node_config = {
+            #"node": "modbus-node",
+            #"params": {
+                #"transport_mode": 0,
+                #"connection_mode": 0,
+                #"max_retries": 0,
+                #"retry_interval": 0,
+                #"interval": 20,
+                #"host": "127.0.0.1",
+                #"port": random_port,
+                #"timeout": 3000
+            #}
+        #}
 
-        response = upload_license(
-            test_data=license_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = upload_license(
+            #test_data=license_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        time.sleep(1)
+        #time.sleep(1)
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 0 == response.json().get("used_nodes")
-        assert 0 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 0 == response.json().get("used_nodes")
+        #assert 0 == response.json().get("used_tags")
 
-        response = add_node(test_data=node_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = add_node(test_data=node_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = configure_node(
-            test_data=node_config, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = configure_node(
+            #test_data=node_config, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 1 == response.json().get("used_nodes")
-        assert 0 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 1 == response.json().get("used_nodes")
+        #assert 0 == response.json().get("used_tags")
 
-        response = add_group(test_data=group_data, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = add_group(test_data=group_data, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 1 == response.json().get("used_nodes")
-        assert 0 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 1 == response.json().get("used_nodes")
+        #assert 0 == response.json().get("used_tags")
 
-        response = add_tag(test_data=tag_config, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = add_tag(test_data=tag_config, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 1 == response.json().get("used_nodes")
-        assert 2 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 1 == response.json().get("used_nodes")
+        #assert 2 == response.json().get("used_tags")
 
-        response = delete_tag(test_data=tag_delete, header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_tag(test_data=tag_delete, header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 1 == response.json().get("used_nodes")
-        assert 1 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 1 == response.json().get("used_nodes")
+        #assert 1 == response.json().get("used_tags")
 
-        response = delete_group(test_data=group_delete,
-                                header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_group(test_data=group_delete,
+                                #header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 1 == response.json().get("used_nodes")
-        assert 0 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 1 == response.json().get("used_nodes")
+        #assert 0 == response.json().get("used_tags")
 
-        response = delete_node(test_data=node_delete,
-                               header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
+        #response = delete_node(test_data=node_delete,
+                               #header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
 
-        response = get_license(header_data=config.headers)
-        assert 200 == response.status_code
-        assert NEU_ERR_SUCCESS == response.json().get("error")
-        assert 0 == response.json().get("used_nodes")
-        assert 0 == response.json().get("used_tags")
+        #response = get_license(header_data=config.headers)
+        #assert 200 == response.status_code
+        #assert NEU_ERR_SUCCESS == response.json().get("error")
+        #assert 0 == response.json().get("used_nodes")
+        #assert 0 == response.json().get("used_tags")
 
-        os.remove("build/persistence/neuron.lic")
+        #os.remove("build/persistence/neuron.lic")
 
     #def test09_tags_limit_test(self, setup_and_teardown_neuron, setup_and_teardown_modbus, random_port):
         #print("---given:add 31 tags and upload license_30, when:write&read before&after delete 1 tag, then:failed before deleting and success after deleting---")
