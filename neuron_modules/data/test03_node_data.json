@@ -39,14 +39,6 @@
         "name": "mqtt-node",
         "new_name": "mqtt-node"
     },
-    "update_monitor": {
-        "name": "monitor",
-        "new_name": "monitor-new"
-    },
-    "update_to_monitor": {
-        "name": "modbus-tcp-node",
-        "new_name": "monitor"
-    },
     "start_node_not_set": {
         "node": "modbus-tcp-node",
         "cmd": 0
