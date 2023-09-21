@@ -18,6 +18,11 @@ url_tag = BASE_URL + f"/api/v2/tags"
 url_read = BASE_URL + f"/api/v2/read"
 url_write = BASE_URL + f"/api/v2/write"
 
+url_plugin = BASE_URL + f"/api/v2/plugin"
+
+url_template = BASE_URL + f"/api/v2/template"
+
+
 def login(test_data):
     return requests.post(url=url_login, json=test_data)
 def change_password(test_data, header_data):
@@ -67,3 +72,17 @@ def read(test_data, header_data):
     return requests.post(url=url_read, json=test_data, headers= header_data)
 def write(test_data, header_data):
     return requests.post(url=url_write, json=test_data, headers= header_data)
+
+def add_plugin(test_data, header_data):
+    return requests.post(url=url_plugin, json=test_data, headers=header_data)
+def updata_plugin(test_data, header_data):
+    return requests.put(url=url_plugin, json=test_data, headers=header_data)
+def del_plugin(test_data, header_data):
+    return requests.delete(url=url_plugin, json=test_data, headers=header_data)
+def get_plugin(test_data, header_data):
+    return requests.get(url=url_plugin, headers=header_data)
+
+def add_template(test_data, header_data):
+    return requests.post(url=url_template, json=test_data, headers=header_data)
+def del_template(name, header_data):
+    return requests.delete(url=url_template + f"?name={name}", headers=header_data)
