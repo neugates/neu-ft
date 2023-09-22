@@ -42,7 +42,7 @@ def random_port():
 def setup_and_teardown_modbus(random_port):
 
     process_modbus = subprocess.Popen(
-        ['./modbus_simulator', 'tcp', str(random_port)], stderr=subprocess.PIPE, cwd='build/simulator')
+        ['./modbus_simulator', 'tcp', str(random_port), 'ip_v4'], stderr=subprocess.PIPE, cwd='build/simulator')
     time.sleep(1)
     assert process_modbus.poll() is None
 
