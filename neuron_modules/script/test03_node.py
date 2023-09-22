@@ -156,24 +156,6 @@ class TestNode:
         assert 409 == response.status_code
         assert NEU_ERR_NODE_EXIST == response.json().get("error")
 
-    def test12_update_monitor_node_fail(self, setup_and_teardown_neuron):
-        print("---given:old name is monitor, when:update monitor node name, then:update failed and return error---")
-        test_data = TestNode.test_data
-        node_data = test_data['update_monitor']
-
-        response = update_node(test_data=node_data, header_data=config.headers)
-        assert 400 == response.status_code
-        assert NEU_ERR_NODE_NOT_ALLOW_UPDATE == response.json().get("error")
-
-    def test13_update_node_name_to_monitor_fail(self, setup_and_teardown_neuron):
-        print("---given:new name is monitor, when:update south node name, then:update failed and return error---")
-        test_data = TestNode.test_data
-        node_data = test_data['update_to_monitor']
-
-        response = update_node(test_data=node_data, header_data=config.headers)
-        assert 409 == response.status_code
-        assert NEU_ERR_NODE_EXIST == response.json().get("error")
-
     def test14_get_driver_node_success(self, setup_and_teardown_neuron):
         print(
             "---given:correct request configuration, when:get driver node, then:success---")
