@@ -56,7 +56,7 @@ class TestLogin:
 
         response = login(test_data=user_data)
         assert 401 == response.status_code
-        assert NEU_ERR_INVALID_USER == response.json().get("error")
+        assert NEU_ERR_INVALID_USER_OR_PASSWORD == response.json().get("error")
 
     def test03_login_invalid_password_fail(self, setup_and_teardown_neuron):
         print("---given:invalid password, when:login, then:login failed and return error---")
@@ -65,7 +65,7 @@ class TestLogin:
 
         response = login(test_data=user_data)
         assert 401 == response.status_code
-        assert NEU_ERR_INVALID_PASSWORD == response.json().get("error")
+        assert NEU_ERR_INVALID_USER_OR_PASSWORD == response.json().get("error")
     
     def test04_login_change_password_success(self, setup_and_teardown_neuron):
         print("---given:name, old and new password, when:login, then:success---")
