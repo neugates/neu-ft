@@ -13,7 +13,8 @@ from data.error_codes import *
 @pytest.fixture(autouse=True)
 def setup_and_teardown_neuron():
     os.system("mkdir -p build/persistence")
-    process_neuron = subprocess.Popen(['./neuron'], stderr=subprocess.PIPE, cwd='build/')
+    process_neuron = subprocess.Popen(
+        ['./neuron'], stderr=subprocess.PIPE, cwd='build/')
     time.sleep(1)
     assert process_neuron.poll() is None
 
@@ -25,10 +26,11 @@ def setup_and_teardown_neuron():
     assert process_neuron.poll() is not None, "Neuron process didn't stop"
     assert err.decode() == '', "stderr not empty: " + err.decode()
 
+
 @pytest.fixture(scope="class", autouse=True)
 def move_and_delete_logs():
     yield
-    
+
     report_directory = "neu-ft/neuron_modules/report"
     Path(report_directory).mkdir(exist_ok=True)
     if os.path.exists("build/logs/neuron.log"):
